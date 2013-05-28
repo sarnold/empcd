@@ -10,25 +10,39 @@
 # Source Makefile for empcd
 #
 
-BINS	= empcd
-SRCS	= empcd.c keyeventtable.c support/mpc-0.12.2/src/libmpdclient.c
-INCS	= empcd.h
-DEPS	= Makefile
-OBJS	= empcd.o keyeventtable.o support/mpc-0.12.2/src/libmpdclient.o
-WARNS	= -W -Wall -pedantic -Wno-format -Wno-unused -Wno-long-long
-EXTRA   = -g3
-CFLAGS	= $(WARNS) $(EXTRA) -D_GNU_SOURCE
-LDFLAGS	=
-CC      = gcc
-RM      = rm
-DESTDIR	= /
+CROSS_COMPILE ?= arm-none-linux-gnueabi-
+PREFIX  = $(CROSS_COMPILE)
+CC      = $(PREFIX)gcc
+CXX     = $(PREFIX)g++
+CPP     = $(PREFIX)cpp
+LD      = $(PREFIX)gcc
+AR      = $(PREFIX)ar
+AS      = $(PREFIX)as
+RANLIB  = $(PREFIX)ranlib
+PWD     = $(shell pwd)
+
+SYSROOT ?= /usr/local/arago/arm-2009q1/arm-none-linux-gnueabi
+RPATH_ARG ?= $(SYSROOT)/usr/lib
+INCFLAG = -I. -I./support/mpc-0.12.2/src/ -I$(SYSROOT)/usr/include
+
+BINS    = empcd
+SRCS    = empcd.c keyeventtable.c support/mpc-0.12.2/src/libmpdclient.c
+INCS    = empcd.h
+DEPS    = Makefile
+OBJS    = empcd.o keyeventtable.o support/mpc-0.12.2/src/libmpdclient.o
+WARNS   = -W -Wall -pedantic -Wno-format -Wno-unused -Wno-long-long
+EXTRA   = -g -O2 -pipe
+CFLAGS  = $(WARNS) $(EXTRA) -D_GNU_SOURCE $(INCFLAG)
+LDFLAGS = -L$(SYSROOT)/lib -L$(SYSROOT)/usr/lib
+
 dirsbin = /usr/sbin/
 dirdoc  = /usr/share/doc/empcd/
+diretc = /etc
 
 # Export some things
-export DESTDIR
 export dirsbin
 export dirdoc
+export diretc
 
 # Make Targets
 all:	$(BINS)

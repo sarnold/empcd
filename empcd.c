@@ -12,8 +12,8 @@
 #define EMPCD_VERSION "2012.11.23"
 #define EMPCD_VSTRING "empcd %s by Jeroen Massar <jeroen@massar.ch>\n"
 
-/* MPD functions */
-#include "support/mpc-0.12.2/src/libmpdclient.h"
+/* MPD functions from locally included mpc source */
+#include "libmpdclient.h"
 #define MPD_HOST_DEFAULT "localhost"
 #define MPD_PORT_DEFAULT "6600"
 
