@@ -32,8 +32,11 @@ DEPS    = Makefile
 OBJS    = empcd.o keyeventtable.o support/mpc-0.12.2/src/libmpdclient.o
 WARNS   = -W -Wall -pedantic -Wno-format -Wno-unused -Wno-long-long
 EXTRA   = -g -O2 -pipe
-CFLAGS  = $(WARNS) $(EXTRA) -D_GNU_SOURCE $(INCFLAG)
-LDFLAGS = -L$(SYSROOT)/lib -L$(SYSROOT)/usr/lib
+MYCFLAGS  = $(WARNS) $(EXTRA) -D_GNU_SOURCE $(INCFLAG)
+MYLDFLAGS = -L$(SYSROOT)/lib -L$(SYSROOT)/usr/lib
+
+CFLAGS += $(MYCFLAGS)
+LDFLAGS += $(MYLDFLAGS)
 
 dirsbin = /usr/sbin/
 dirdoc  = /usr/share/doc/empcd/
